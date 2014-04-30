@@ -72,7 +72,14 @@ ${EndIf}
 
 ;	MessageBox MB_OK "'$1'"
 
-${If} "$1" == "768"
+;We get a return code of '256' if the driver was installed, or '1' if the device was connected, the driver was installed the device updated
+;So for 5 drivers, we need to check the combinations of 0 (aka 256*5 = 1280) up to 5 (aka 1*5=5) devices being preconnected
+${If} "$1" == "5"	; 5 devices
+${OrIf} "$1" == "260"	; 256 + 4 devices
+${OrIf} "$1" == "515"	; 512 + 3 devices
+${OrIf} "$1" == "770"	; 768 + 2 devices
+${OrIf} "$1" == "1025"	; 1024 + 1 devices
+${OrIf} "$1" == "1280"	; 0 devices
 	MessageBox MB_OK "Driver installation was successful! The installer will now open a web page to notify codebender. You can then proceed with the walkthrough."
 	ExecShell open "https://codebender.cc/static/walkthrough/page/download-complete"
 ${Else}
