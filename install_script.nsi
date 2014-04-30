@@ -77,6 +77,7 @@ ${If} "$1" == "768"
 	ExecShell open "https://codebender.cc/static/walkthrough/page/download-complete"
 ${Else}
 	MessageBox MB_OK "Sorry, an error occurred when installing the drivers. If you keep having issues, you can contact us at girder@codebender.cc"
+	ExecShell open "https://codebender.cc/static/walkthrough/page/download-windows-error?error=$1"
 ${EndIf}
 
 
