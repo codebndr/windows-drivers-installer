@@ -7,6 +7,7 @@ RequestExecutionLevel admin
 
 !include "MUI2.nsh"
 !include WinMessages.nsh
+!include LogicLib.nsh
 
 ;--------------------------------
 ;General
@@ -64,52 +65,64 @@ ReadRegStr $R0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion" CurrentVersio
 
 ${if} ${RunningX64}
 	; 64 bits go here
-	RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\arduino\dpinst-amd64.exe" /sw' $1
-	RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\cdc\dpinst-amd64.exe" /sw' $2
-	RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\flora\dpinst-amd64.exe" /sw' $3
-	RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\ftdibus\dpinst-amd64.exe" /sw' $4
-	RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\ftdiport\dpinst-amd64.exe" /sw' $5
-	RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\usbtiny\dpinst-amd64.exe" /sw' $6
+	RealProgress::GradualProgress /NOUNLOAD 1 3 6
 ${Else}
 	; 32 bits go here
-	RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\arduino\dpinst-x86.exe" /sw' $1
-		RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\cdc\dpinst-x86.exe" /sw' $2
-		RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\flora\dpinst-x86.exe" /sw' $3
-		RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\ftdibus\dpinst-x86.exe" /sw' $4
-		RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\ftdiport\dpinst-x86.exe" /sw' $5
-		RealProgress::GradualProgress /NOUNLOAD 1 3 15
+	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\usbtiny\dpinst-x86.exe" /sw' $6
+	RealProgress::GradualProgress /NOUNLOAD 1 3 6
 ${EndIf}
 
-${If} "$1" == "1"
-${OrIf} "$1" == "256"
-${AndIf} "$2" == "1"
-${OrIf} "$2" == "256"
-${AndIf} "$3" == "1"
-${OrIf} "$3" == "256"
-${AndIf} "$4" == "1"
-${OrIf} "$4" == "256"
-${AndIf} "$5" == "1"
-${OrIf} "$5" == "256"
-${AndIf} "$6" == "1"
-${OrIf} "$6" == "256"
+!macro _MyCheckExitcodeSuccess _a _b _t _f
+    !if `${_f}` == ``
+        !undef _f
+        !define _f +2 
+    !endif
+    IntCmp ${_b} 1 +2
+    IntCmp ${_b} 256 `${_t}` `${_f}` `${_f}`
+    !if `${_t}` != ``
+        Goto `${_t}`
+    !endif
+!macroend
+!define MyCheckExitcodeSuccess `"" MyCheckExitcodeSuccess`
+
+${If} ${MyCheckExitcodeSuccess} $1
+${AndIf} ${MyCheckExitcodeSuccess} $2
+${AndIf} ${MyCheckExitcodeSuccess} $3
+${AndIf} ${MyCheckExitcodeSuccess} $4
+${AndIf} ${MyCheckExitcodeSuccess} $5
+${AndIf} ${MyCheckExitcodeSuccess} $6
+	Sleep 3000
 	MessageBox MB_OK "Driver installation was successful! The installer will now open a web page to notify codebender. You can then proceed with the walkthrough."
 	ExecShell open "https://codebender.cc/static/walkthrough/page/download-complete"
 ${Else}
-	MessageBox MB_OK "Sorry, an error occurred when installing the drivers. If you keep having issues, you can contact us at girder@codebender.cc"
+	Sleep 3000
+    MessageBox MB_OK "Sorry, an error occurred when installing the drivers. If you keep having issues, you can contact us at girder@codebender.cc"
 	ExecShell open "https://codebender.cc/static/walkthrough/page/download-windows-error?error"
 ${EndIf}
 
 # default section end
 sectionEnd
+
