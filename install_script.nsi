@@ -72,12 +72,12 @@ ${if} ${RunningX64}
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\flora\dpinst-amd64.exe" /sw' $3
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
-	ExecWait '"$INSTDIR\ftdibus\dpinst-amd64.exe" /sw' $4
+ 	ExecWait '"$INSTDIR\ftdibus\dpinst-amd64.exe" /sw' $4
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\ftdiport\dpinst-amd64.exe" /sw' $5
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\usbtiny\dpinst-amd64.exe" /sw' $6
-	RealProgress::GradualProgress /NOUNLOAD 1 3 6
+	RealProgress::GradualProgress /NOUNLOAD 1 3 6 
 ${Else}
 	; 32 bits go here
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
@@ -87,12 +87,12 @@ ${Else}
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\flora\dpinst-x86.exe" /sw' $3
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
-	ExecWait '"$INSTDIR\ftdibus\dpinst-x86.exe" /sw' $4
+ 	ExecWait '"$INSTDIR\ftdibus\dpinst-x86.exe" /sw' $4
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\ftdiport\dpinst-x86.exe" /sw' $5
 	RealProgress::GradualProgress /NOUNLOAD 1 3 14
 	ExecWait '"$INSTDIR\usbtiny\dpinst-x86.exe" /sw' $6
-	RealProgress::GradualProgress /NOUNLOAD 1 3 6
+	RealProgress::GradualProgress /NOUNLOAD 1 3 6 
 ${EndIf}
 
 !macro _MyCheckExitcodeSuccess _a _b _t _f
@@ -113,7 +113,7 @@ ${AndIf} ${MyCheckExitcodeSuccess} $2
 ${AndIf} ${MyCheckExitcodeSuccess} $3
 ${AndIf} ${MyCheckExitcodeSuccess} $4
 ${AndIf} ${MyCheckExitcodeSuccess} $5
-${AndIf} ${MyCheckExitcodeSuccess} $6
+${AndIf} ${MyCheckExitcodeSuccess} $6 
 	Sleep 3000
 	MessageBox MB_OK "Driver installation was successful! The installer will now open a web page to notify codebender. You can then proceed with the walkthrough."
 	ExecShell open "https://codebender.cc/static/walkthrough/page/download-complete"
