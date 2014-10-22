@@ -5,7 +5,9 @@ RequestExecutionLevel admin
 ;--------------------------------
 ;Include Modern UI
 
-  !include "MUI2.nsh"
+!include "MUI2.nsh"
+!include WinMessages.nsh
+!include LogicLib.nsh
 
 ;--------------------------------
 ;General
@@ -41,19 +43,18 @@ RequestExecutionLevel admin
 ;--------------------------------
 ;Pages
 
-  ;!insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_INSTFILES
 
 ;--------------------------------
 ;Languages
-
-  !insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "English"
   
 # default section start
 section
- 
+
 # define output path
 setOutPath $INSTDIR
+RealProgress::AddProgress /NOUNLOAD 10
  
 # specify file to go in output path
 File /r drivers\*
@@ -63,31 +64,70 @@ File /r drivers\*
 ReadRegStr $R0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion" CurrentVersion
 
 ${if} ${RunningX64}
-; 64 bits go here
-	ExecWait '"$INSTDIR\dpinst-amd64.exe" /sw' $1
+	; 64 bits go here
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\arduino\dpinst-amd64.exe" /sw' $1
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\cdc\dpinst-amd64.exe" /sw' $2
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\flora\dpinst-amd64.exe" /sw' $3
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+ 	ExecWait '"$INSTDIR\ftdibus\dpinst-amd64.exe" /sw' $4
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\ftdiport\dpinst-amd64.exe" /sw' $5
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\usbtiny\dpinst-amd64.exe" /sw' $6
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12 
+	ExecWait '"$INSTDIR\lightup\dpinst-amd64.exe" /sw' $7
+	RealProgress::GradualProgress /NOUNLOAD 1 3 6 
 ${Else}
 	; 32 bits go here
-	ExecWait '"$INSTDIR\dpinst-x86.exe" /sw' $1
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\arduino\dpinst-x86.exe" /sw' $1
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\cdc\dpinst-x86.exe" /sw' $2
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\flora\dpinst-x86.exe" /sw' $3
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+ 	ExecWait '"$INSTDIR\ftdibus\dpinst-x86.exe" /sw' $4
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\ftdiport\dpinst-x86.exe" /sw' $5
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\usbtiny\dpinst-x86.exe" /sw' $6
+	RealProgress::GradualProgress /NOUNLOAD 1 3 12
+	ExecWait '"$INSTDIR\lightup\dpinst-x86.exe" /sw' $7
+	RealProgress::GradualProgress /NOUNLOAD 1 3 6 
 ${EndIf}
 
-;	MessageBox MB_OK "'$1'"
+!macro _MyCheckExitcodeSuccess _a _b _t _f
+    !if `${_f}` == ``
+        !undef _f
+        !define _f +2 
+    !endif
+    IntCmp ${_b} 1 +2
+    IntCmp ${_b} 256 `${_t}` `${_f}` `${_f}`
+    !if `${_t}` != ``
+        Goto `${_t}`
+    !endif
+!macroend
+!define MyCheckExitcodeSuccess `"" MyCheckExitcodeSuccess`
 
-;We get a return code of '256' if the driver was installed, or '1' if the device was connected, the driver was installed the device updated
-;So for 6 drivers, we need to check the combinations of 0 (aka 256*6 = 1536) up to 6 (aka 1*6=6) devices being preconnected
-${If} "$1" == "6"	; 6 devices
-${OrIf} "$1" == "261"	; 256 + 5 devices
-${OrIf} "$1" == "516"	; 512 + 4 devices
-${OrIf} "$1" == "771"	; 768 + 3 devices
-${OrIf} "$1" == "1026"	; 1024 + 2 devices
-${OrIf} "$1" == "1281"	; 1280 + 1 devices
-${OrIf} "$1" == "1536"	; 0 devices
+${If} ${MyCheckExitcodeSuccess} $1
+${AndIf} ${MyCheckExitcodeSuccess} $2
+${AndIf} ${MyCheckExitcodeSuccess} $3
+${AndIf} ${MyCheckExitcodeSuccess} $4
+${AndIf} ${MyCheckExitcodeSuccess} $5
+${AndIf} ${MyCheckExitcodeSuccess} $6
+${AndIf} ${MyCheckExitcodeSuccess} $7 
+	Sleep 3000
 	MessageBox MB_OK "Driver installation was successful! The installer will now open a web page to notify codebender. You can then proceed with the walkthrough."
 	ExecShell open "https://codebender.cc/static/walkthrough/page/download-complete"
 ${Else}
-	MessageBox MB_OK "Sorry, an error occurred when installing the drivers. If you keep having issues, you can contact us at girder@codebender.cc"
-	ExecShell open "https://codebender.cc/static/walkthrough/page/download-windows-error?error=$1"
+	Sleep 3000
+    MessageBox MB_OK "Sorry, an error occurred when installing the drivers. If you keep having issues, you can contact us at girder@codebender.cc"
+	ExecShell open "https://codebender.cc/static/walkthrough/page/download-windows-error?error"
 ${EndIf}
-
 
 # default section end
 sectionEnd
+
