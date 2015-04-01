@@ -1,0 +1,6 @@
+//the inf file was signed having unix line endings
+//but when git will check-it-out in windows it will
+//change the line endings to windows style and this will
+//invalidate signing.
+//Next command makes sure git will not change line endings
+sparkfun.inf	text	eol=lf
