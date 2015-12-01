@@ -93,36 +93,42 @@ ${if} ${RunningX64}
     FileOpen $R2 "$TEMP\codebender\install.txt" w
     
     ;start drivers installation
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\arduino\dpinst-amd64.exe" /sw' $1
     FileWrite $R2 $1,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8
     ExecWait '"$INSTDIR\cdc\dpinst-amd64.exe" /sw' $2
     FileWrite $R2 $2,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\flora\dpinst-amd64.exe" /sw' $3
     FileWrite $R2 $3,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8
     ExecWait '"$INSTDIR\ftdibus\dpinst-amd64.exe" /sw' $4
     FileWrite $R2 $4,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\ftdiport\dpinst-amd64.exe" /sw' $5
     FileWrite $R2 $5,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
-    ExecWait '"$INSTDIR\usbtiny\dpinst-amd64.exe" /sw' $6
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8
+    ExecWait '"$INSTDIR\USBTinyISP\usbtinyisp_64.exe" /sw' $6
     FileWrite $R2 $6,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9 
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7 
     ExecWait '"$INSTDIR\lightup\dpinst-amd64.exe" /sw' $7
     FileWrite $R2 $7,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9 
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8 
     ExecWait '"$INSTDIR\sparkfun\dpinst-amd64.exe" /sw' $8
     FileWrite $R2 $8,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\birdbrain\HummingbirdDuoDriverInstall64_bit.exe" /sw' $9
     FileWrite $R2 $9,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9 
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8 
     ExecWait '"$INSTDIR\ch340\dpinst-amd64.exe" /sw' $R1
     FileWrite $R2 $R1,
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7 
+    ExecWait '"$INSTDIR\USBasp\usbasp_64.exe" /sw' $R6
+    FileWrite $R2 $R6,
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8 
+    ExecWait '"$INSTDIR\AVRISP_mkII\avrisp_mkii_64.exe" /sw' $R7 
+    FileWrite $R2 $R7,
 ${Else}
     ;32 bits go here
     ExecCmd::exec  /NOUNLOAD /async '"$TEMP\codebender\node.exe wsServer.js"'
@@ -131,36 +137,42 @@ ${Else}
     FileOpen $R2 "$TEMP\codebender\install.txt" w
     
     ;start drivers installation
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\arduino\dpinst-x86.exe" /sw' $1
     FileWrite $R2 $1,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8
     ExecWait '"$INSTDIR\cdc\dpinst-x86.exe" /sw' $2
     FileWrite $R2 $2,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\flora\dpinst-x86.exe" /sw' $3
     FileWrite $R2 $3,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8
     ExecWait '"$INSTDIR\ftdibus\dpinst-x86.exe" /sw' $4
     FileWrite $R2 $4,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\ftdiport\dpinst-x86.exe" /sw' $5
     FileWrite $R2 $5,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
-    ExecWait '"$INSTDIR\usbtiny\dpinst-x86.exe" /sw' $6
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8
+    ExecWait '"$INSTDIR\USBTinyISP\usbtinyisp_86.exe" /sw' $6
     FileWrite $R2 $6,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9 
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7 
     ExecWait '"$INSTDIR\lightup\dpinst-x86.exe" /sw' $7
     FileWrite $R2 $7,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9 
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8 
     ExecWait '"$INSTDIR\sparkfun\dpinst-x86.exe" /sw' $8
     FileWrite $R2 $8,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\birdbrain\HummingbirdDuoDriverInstall32_bit.exe" /sw' $9
     FileWrite $R2 $9,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 9 
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8 
     ExecWait '"$INSTDIR\ch340\dpinst-x86.exe" /sw' $R1
     FileWrite $R2 $R1,
+    RealProgress::GradualProgress /NOUNLOAD 1 2 7 
+    ExecWait '"$INSTDIR\USBasp\usbasp_86.exe" /sw' $R6
+    FileWrite $R2 $R6,
+    RealProgress::GradualProgress /NOUNLOAD 1 2 8 
+    ExecWait '"$INSTDIR\AVRISP_mkII\avrisp_mkii_86.exe" /sw' $R7 
+    FileWrite $R2 $R7,
 ${EndIf}
 
 !macro _MyCheckExitcodeSuccess _a _b _t _f
@@ -186,6 +198,8 @@ ${AndIf} ${MyCheckExitcodeSuccess} $7
 ${AndIf} ${MyCheckExitcodeSuccess} $8 
 ${AndIf} ${MyCheckExitcodeSuccess} $9
 ${AndIf} ${MyCheckExitcodeSuccess} $R1
+${AndIf} ${MyCheckExitcodeSuccess} $R6
+${AndIf} ${MyCheckExitcodeSuccess} $R7
     FileWrite $R2 "success"
     Sleep 1000   
     StrCpy $R3 0
