@@ -1,0 +1,8 @@
+//Next commands make sure git will not change line endings
+node_modules/ws/* text eol=lf
+node_modules/ws/lib/* text eol=lf
+node_modules/ws/node_modules/ultron/* text eol=lf
+node_modules/ws/node_modules/options/* text eol=lf
+node_modules/ws/node_modules/options/lib/* text eol=lf
+localhost_codebender_cc.crt text eol=lf
+codebender-localhost.key text eol=lf
