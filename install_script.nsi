@@ -111,27 +111,30 @@ ${if} ${RunningX64}
     RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\USBTinyISP\usbtinyisp_64.exe" /sw' $6
     FileWrite $R2 $6,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\lightup\dpinst-amd64.exe" /sw' $7
     FileWrite $R2 $7,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\sparkfun\dpinst-amd64.exe" /sw' $8
     FileWrite $R2 $8,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\birdbrain\HummingbirdDuoDriverInstall64_bit.exe" /sw' $9
     FileWrite $R2 $9,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\ch340\dpinst-amd64.exe" /sw' $R1
     FileWrite $R2 $R1,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\USBasp\usbasp_64.exe" /sw' $R6
     FileWrite $R2 $R6,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\AVRISP_mkII\avrisp_mkii_64.exe" /sw' $R7 
     FileWrite $R2 $R7,
     RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\sparki\dpinst-amd64.exe" /sw' $R8
     FileWrite $R2 $R8,
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
+    ExecWait '"$INSTDIR\Adafruit_CircuitPlayground\dpinst-amd64.exe" /sw' $R9
+    FileWrite $R2 $R9,
 ${Else}
     ;32 bits go here
     ExecCmd::exec  /NOUNLOAD /async '"$TEMP\codebender\node.exe wsServer.js"'
@@ -158,27 +161,30 @@ ${Else}
     RealProgress::GradualProgress /NOUNLOAD 1 2 7
     ExecWait '"$INSTDIR\USBTinyISP\usbtinyisp_86.exe" /sw' $6
     FileWrite $R2 $6,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\lightup\dpinst-x86.exe" /sw' $7
     FileWrite $R2 $7,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\sparkfun\dpinst-x86.exe" /sw' $8
     FileWrite $R2 $8,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\birdbrain\HummingbirdDuoDriverInstall32_bit.exe" /sw' $9
     FileWrite $R2 $9,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\ch340\dpinst-x86.exe" /sw' $R1
     FileWrite $R2 $R1,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\USBasp\usbasp_86.exe" /sw' $R6
     FileWrite $R2 $R6,
-    RealProgress::GradualProgress /NOUNLOAD 1 2 7
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\AVRISP_mkII\avrisp_mkii_86.exe" /sw' $R7 
     FileWrite $R2 $R7,
     RealProgress::GradualProgress /NOUNLOAD 1 2 6
     ExecWait '"$INSTDIR\sparki\dpinst-x86.exe" /sw' $R8
     FileWrite $R2 $R8,
+    RealProgress::GradualProgress /NOUNLOAD 1 2 6
+    ExecWait '"$INSTDIR\Adafruit_CircuitPlayground\dpinst-x86.exe" /sw' $R9
+    FileWrite $R2 $R9,
 ${EndIf}
 
 !macro _MyCheckExitcodeSuccess _a _b _t _f
@@ -207,6 +213,7 @@ ${AndIf} ${MyCheckExitcodeSuccess} $R1
 ${AndIf} ${MyCheckExitcodeSuccess} $R6
 ${AndIf} ${MyCheckExitcodeSuccess} $R7
 ${AndIf} ${MyCheckExitcodeSuccess} $R8
+${AndIf} ${MyCheckExitcodeSuccess} $R9
     FileWrite $R2 "success"
     Sleep 1000   
     StrCpy $R3 0
